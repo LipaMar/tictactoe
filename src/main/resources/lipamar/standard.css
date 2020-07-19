@@ -1,4 +1,17 @@
 .line{
-    -fx-stroke: blue;
+    -fx-stroke: aqua;
+}
+.button{
+    -fx-background-color: inherit;
+    -fx-font-family: Gadugi;
+    -fx-font: 55px bold;
+    -fx-content-display: center;
+    -fx-cursor: crosshair;
+    -fx-pref-height: 184;
+    -fx-pref-width: 184;
+
+}
+#grid{
+    -fx-background-color: lawngreen;
 }
 

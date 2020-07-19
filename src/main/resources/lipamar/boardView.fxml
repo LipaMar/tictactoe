@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.ColumnConstraints?>
-<?import javafx.scene.layout.GridPane?>
-<?import javafx.scene.layout.Pane?>
-<?import javafx.scene.layout.RowConstraints?>
-<?import javafx.scene.shape.Line?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
-<Pane prefHeight="600.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" stylesheets="@standard.css">
+<Pane prefHeight="600.0" prefWidth="600.0" stylesheets="@standard.css" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="lipamar.UI.boardViewController">
    <children>
-      <Line endX="200.0" endY="560.0" startX="200.0" startY="40.0" strokeLineCap="ROUND" strokeWidth="15.0" styleClass="line"/>
-      <Line endX="560.0" endY="400.0" startX="40.0" startY="400.0" strokeLineCap="ROUND" strokeWidth="15.0" styleClass="line"/>
-      <Line endX="560.0" endY="200.0" startX="40.0" startY="200.0" strokeLineCap="ROUND" strokeWidth="15.0" styleClass="line"/>
-      <Line endX="400.0" endY="560.0" startX="400.0" startY="40.0" strokeLineCap="ROUND" strokeWidth="15.0" styleClass="line"/>
-      <GridPane prefHeight="600.0" prefWidth="600.0">
+      <GridPane fx:id="grid" prefHeight="600.0" prefWidth="600.0">
         <columnConstraints>
             <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
           <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
@@ -24,5 +17,9 @@
           <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
         </rowConstraints>
       </GridPane>
+      <Line endX="200.0" endY="560.0" startX="200.0" startY="40.0" strokeLineCap="ROUND" strokeWidth="15.0" styleClass="line" />
+      <Line endX="560.0" endY="400.0" startX="40.0" startY="400.0" strokeLineCap="ROUND" strokeWidth="15.0" styleClass="line" />
+      <Line endX="560.0" endY="200.0" startX="40.0" startY="200.0" strokeLineCap="ROUND" strokeWidth="15.0" styleClass="line" />
+      <Line endX="400.0" endY="560.0" startX="400.0" startY="40.0" strokeLineCap="ROUND" strokeWidth="15.0" styleClass="line" />
    </children>
 </Pane>
