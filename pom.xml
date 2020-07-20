@@ -35,6 +35,25 @@
                 <configuration>
                     <mainClass>lipamar.App</mainClass>
                 </configuration>
+                <executions>
+                    <execution>
+                        <!-- Default configuration for running -->
+                        <id>default-cli</id>
+                        <configuration>
+                            <mainClass>lipamar.App</mainClass>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <!-- Configuration for debugging -->
+                        <id>debug</id>
+                        <configuration>
+                            <options>
+                                <option>-agentlib:jdwp=transport=dt_socket,server=y,suspend=y,address=*:8000</option>
+                            </options>
+                            <mainClass>lipamar.App</mainClass>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
