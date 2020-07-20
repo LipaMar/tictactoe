@@ -1,13 +1,15 @@
 package lipamar;
 
-import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class Board {
-    private ArrayList<ArrayList<Field>> board;
+    private final ArrayList<ArrayList<Field>> board;
 
     public Board() {
         board = new ArrayList<>();
+        initializeBoardFields();
     }
 
     public Field getField(int x, int y) {
@@ -22,5 +24,9 @@ public class Board {
             }
             board.add(row);
         }
+    }
+
+    public List<List<Field>> toList() {
+        return Collections.unmodifiableList(board);
     }
 }

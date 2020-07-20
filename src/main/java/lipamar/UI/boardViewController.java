@@ -6,8 +6,13 @@ import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.control.Button;
 import javafx.scene.layout.GridPane;
+import lipamar.App;
+import lipamar.Board;
+import lipamar.Field;
+import lipamar.Mark;
 
 import java.net.URL;
+import java.util.List;
 import java.util.ResourceBundle;
 
 public class boardViewController implements Initializable {
@@ -23,15 +28,15 @@ public class boardViewController implements Initializable {
 
         for (int i = 0; i < SIDE; i++) {
             for (int j = 0; j < SIDE; j++) {
-                Button button = new Button("o");
+                Button button = new Button();
                 int finalI = i;
                 int finalJ = j;
                 button.setOnAction(actionEvent -> {
-                    System.out.println("i = " + finalI + " j = " + finalJ);
-                    button.setText("x");
+                    App.GAME.makeAMove(finalI, finalJ);
+                    updateBoardView();
                 });
-                grid.setHalignment(button, HPos.CENTER);
-                grid.setValignment(button, VPos.CENTER);
+                GridPane.setHalignment(button, HPos.CENTER);
+                GridPane.setValignment(button, VPos.CENTER);
                 fields[i][j] = button;
             }
         }
@@ -41,8 +46,18 @@ public class boardViewController implements Initializable {
                 grid.add(fields[i][j], i, j);
             }
         }
-
     }
 
+    private void updateBoardView() {
+        List<List<Field>> board = App.GAME.getBoard().toList();
+
+        for (List<Field> fields : board) {
+            for (Field field : fields) {
+                Mark mark = field.getMark();
+                if (mark != null)
+                    this.fields[field.getX()][field.getY()].setText(mark.getSign());
+            }
+        }
+    }
 }
 

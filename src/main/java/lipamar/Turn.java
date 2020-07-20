@@ -3,17 +3,16 @@ package lipamar;
 import java.util.Random;
 
 public class Turn {
-    private Mark nextMark;
+    private Mark mark;
     public Turn(){
         Random random = new Random();
-        nextMark = Mark.values()[random.nextInt(Mark.values().length)];
-        System.out.println("Player with "+nextMark+" will start!");
+        mark = Mark.values()[random.nextInt(Mark.values().length)];
     }
 
-    public Mark getNextMark() {
-        return nextMark;
+    public Mark getMark() {
+        return mark;
     }
     public void next(){
-        nextMark = nextMark==Mark.NOUGHT?Mark.CROSS:Mark.NOUGHT;
+        mark = mark == Mark.NOUGHT?Mark.CROSS:Mark.NOUGHT;
     }
 }

@@ -23,7 +23,7 @@ public class Field {
     }
 
     public void setMark(Mark mark) {
-        if(this.mark==null)
+        if (this.mark == null)
             this.mark = mark;
     }
 }

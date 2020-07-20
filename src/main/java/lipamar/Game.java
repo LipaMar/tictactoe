@@ -1,13 +1,27 @@
 package lipamar;
 
 public class Game {
-    private Board board;
+    private final Board board;
+    private final Turn turn;
+
     public Game() {
         board = new Board();
-        Turn turn = new Turn();
-        Player player1 = new Player(Mark.CROSS,turn);
-        Player player2 = new Player(Mark.NOUGHT,turn);
-        new Thread(player1).start();
-        new Thread(player2).start();
+        turn = new Turn();
+    }
+
+    public Board getBoard() {
+        return board;
+    }
+
+    public Turn getTurn() {
+        return turn;
+    }
+
+    public void makeAMove(int row, int column) {
+        Field field = board.getField(row, column);
+        if (field.getMark() == null) {
+            field.setMark(turn.getMark());
+            turn.next();
+        }
     }
 }
