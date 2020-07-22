@@ -1,17 +1,34 @@
+
 .line{
-    -fx-stroke: aqua;
+    -fx-stroke: green;
+    -fx-stroke-width: 15px;
+    -fx-stroke-line-cap: round;
 }
 .button{
-    -fx-background-color: inherit;
+    -fx-text-fill:linear-gradient(green 30%,black);
+    -fx-background-color: rgba(0,0,0,0);
     -fx-font-family: Gadugi;
-    -fx-font: 55px bold;
+    -fx-font: 90px bold;
     -fx-content-display: center;
     -fx-cursor: crosshair;
     -fx-pref-height: 184;
     -fx-pref-width: 184;
-
 }
 #grid{
-    -fx-background-color: lawngreen;
+    -fx-background-color: linear-gradient( aqua, violet);
+}
+#endBackground{
+    -fx-background-color: gray;
+    -fx-opacity: 85%;
+    -fx-pref-height: 600;
+    -fx-pref-width: 600;
+}
+#gameOverLabel{
+    -fx-alignment: center;
+    -fx-content-display: center;
+    -fx-pref-height: 600.0;
+    -fx-pref-width: 600.0;
+    -fx-font-size: 96px;
+    -fx-font-smoothing-type: lcd;
 }
 
