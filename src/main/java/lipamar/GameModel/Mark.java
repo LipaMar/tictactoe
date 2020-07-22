@@ -1,4 +1,4 @@
-package lipamar;
+package lipamar.GameModel;
 
 public enum Mark {
     NOUGHT("o"),

@@ -1,12 +1,14 @@
-package lipamar;
+package lipamar.GameModel;
 
 public class Game {
     private final Board board;
     private final Turn turn;
+    private final Referee referee;
 
     public Game() {
-        board = new Board();
+        referee = new Referee();
         turn = new Turn();
+        board = new Board(referee);
     }
 
     public Board getBoard() {
@@ -17,11 +19,11 @@ public class Game {
         return turn;
     }
 
+    public Referee getReferee() {
+        return referee;
+    }
+
     public void makeAMove(int row, int column) {
-        Field field = board.getField(row, column);
-        if (field.getMark() == null) {
-            field.setMark(turn.getMark());
-            turn.next();
-        }
+        board.setMarkOnField(turn.getMark(), row, column);
     }
 }

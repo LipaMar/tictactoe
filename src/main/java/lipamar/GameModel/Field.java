@@ -1,4 +1,4 @@
-package lipamar;
+package lipamar.GameModel;
 
 public class Field {
     private final int X;
@@ -22,8 +22,13 @@ public class Field {
         return mark;
     }
 
-    public void setMark(Mark mark) {
+    protected void setMark(Mark mark) {
         if (this.mark == null)
             this.mark = mark;
+    }
+
+    @Override
+    public String toString() {
+        return mark==null?"null":mark.name();
     }
 }
