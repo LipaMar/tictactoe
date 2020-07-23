@@ -1,5 +1,6 @@
 package lipamar.UI;
 
+import com.sun.scenario.effect.impl.sw.java.JSWBlend_SRC_OUTPeer;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
@@ -14,6 +15,7 @@ import lipamar.GameModel.Field;
 import lipamar.GameModel.Game;
 import lipamar.GameModel.Mark;
 import lipamar.GameModel.Referee;
+import org.w3c.dom.ls.LSOutput;
 
 import java.net.URL;
 import java.util.List;
@@ -32,6 +34,7 @@ public class boardViewController implements Initializable {
     private Pane background;
     @FXML
     private Button newGameButton;
+    private Line winningLine;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -68,7 +71,7 @@ public class boardViewController implements Initializable {
     }
     @FXML
     private void newGame(){
-        System.out.println("asdasd");
+        cleanup();
         App.GAME.newGame();
         gameOverLabel.setVisible(false);
         endBackground.setVisible(false);
@@ -76,7 +79,7 @@ public class boardViewController implements Initializable {
 
     }
     private void cleanup(){
-
+        background.getChildren().remove(winningLine);
     }
 
     private void drawWinningLine() {
@@ -88,7 +91,7 @@ public class boardViewController implements Initializable {
         int startY = fields.get(0).getY();
         int endX = fields.get(fields.size()-1).getX();
         int endY = fields.get(fields.size()-1).getY();
-        Line winningLine = generateLine(startX,startY,endX,endY);
+        winningLine = generateLine(startX,startY,endX,endY);
         winningLine.getStyleClass().add("line");
         background.getChildren().add(1,winningLine);
     }
@@ -96,8 +99,9 @@ public class boardViewController implements Initializable {
     private Line generateLine(int startX, int startY, int endX, int endY) {
         int xDiff = Math.abs(startX - endX);
         int yDiff = Math.abs(startY - endY);
-        System.out.printf("sX %d sY%d eX%d eY%d %n",startX, startY, endX, endY);
-        System.out.printf("[%f,%f][%f,%f]%n",indexToCoordinates(startY)-(yDiff*25),indexToCoordinates(startX)-(xDiff*25),indexToCoordinates(endY)+(yDiff*25),indexToCoordinates(endX)+(xDiff*25));
+        if (startY > endY) {
+            yDiff*=-1;
+        }
         return new Line(indexToCoordinates(startY)-(yDiff*25),indexToCoordinates(startX)-(xDiff*25),
                 indexToCoordinates(endY)+(yDiff*25),indexToCoordinates(endX)+(xDiff*25));
     }

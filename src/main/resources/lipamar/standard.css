@@ -5,7 +5,7 @@
     -fx-stroke-line-cap: round;
 }
 .button{
-    -fx-text-fill:linear-gradient(green 30%,black);
+    -fx-text-fill:darkgreen;
     -fx-background-color: rgba(0,0,0,0);
     -fx-font-family: Gadugi;
     -fx-font: 90px bold;
@@ -18,19 +18,19 @@
     -fx-background-color: linear-gradient( aqua, violet);
 }
 #endBackground{
-    -fx-background-color: gray;
-    -fx-opacity: 85%;
+    -fx-background-color: rgba(128, 128, 128, 0.8);
     -fx-pref-height: 600;
     -fx-pref-width: 600;
 }
 #gameOverLabel{
+    -fx-background-color: gray;
+    -fx-text-fill: silver;
     -fx-alignment: center;
     -fx-content-display: center;
-    -fx-font-size: 96px;
+    -fx-font-size: 75px bold;
     -fx-font-smoothing-type: lcd;
 }
 #newGameButton{
-    -fx-text-fill:linear-gradient(green 30%,white);
     -fx-background-color: blueviolet;
     -fx-font-family: Gadugi;
     -fx-font: 40px bold;
