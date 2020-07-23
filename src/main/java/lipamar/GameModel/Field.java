@@ -26,9 +26,4 @@ public class Field {
         if (this.mark == null)
             this.mark = mark;
     }
-
-    @Override
-    public String toString() {
-        return mark==null?"null":mark.name();
-    }
 }

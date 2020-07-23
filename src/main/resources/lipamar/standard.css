@@ -26,9 +26,17 @@
 #gameOverLabel{
     -fx-alignment: center;
     -fx-content-display: center;
-    -fx-pref-height: 600.0;
-    -fx-pref-width: 600.0;
     -fx-font-size: 96px;
     -fx-font-smoothing-type: lcd;
+}
+#newGameButton{
+    -fx-text-fill:linear-gradient(green 30%,white);
+    -fx-background-color: blueviolet;
+    -fx-font-family: Gadugi;
+    -fx-font: 40px bold;
+    -fx-content-display: center;
+    -fx-cursor: default;
+    -fx-pref-height: 113;
+    -fx-pref-width: 309;
 }
 

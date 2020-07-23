@@ -1,9 +1,9 @@
 package lipamar.GameModel;
 
 public class Game {
-    private final Board board;
+    private Board board;
     private final Turn turn;
-    private final Referee referee;
+    private Referee referee;
 
     public Game() {
         referee = new Referee();
@@ -25,5 +25,11 @@ public class Game {
 
     public void makeAMove(int row, int column) {
         board.setMarkOnField(turn.getMark(), row, column);
+    }
+
+    public void newGame(){
+        referee = new Referee();
+        board = new Board(referee);
+
     }
 }

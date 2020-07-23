@@ -6,8 +6,7 @@ import java.util.List;
 public class UngroupedBoard<T> {
     private final List<List<T>> rows = new ArrayList<>();
     private final List<List<T>> columns = new ArrayList<>();
-    private final List<T> diagonal1;
-    private final List<T> diagonal2;
+    private final List<List<T>> diagonals= new ArrayList<>();
 
     public UngroupedBoard(List<List<T>> board) {
         int size = board.size();
@@ -28,8 +27,8 @@ public class UngroupedBoard<T> {
             rows.add(row);
             columns.add(column);
         }
-        this.diagonal1 = diagonal1;
-        this.diagonal2 = diagonal2;
+        diagonals.add(diagonal1);
+        diagonals.add(diagonal2);
 
     }
 
@@ -41,11 +40,5 @@ public class UngroupedBoard<T> {
         return columns;
     }
 
-    public List<T> getDiagonal1() {
-        return diagonal1;
-    }
-
-    public List<T> getDiagonal2() {
-        return diagonal2;
-    }
+    public List<List<T>> getDiagonals(){return diagonals;}
 }

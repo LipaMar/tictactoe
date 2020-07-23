@@ -18,8 +18,4 @@ public class Turn {
     public void next() {
         mark = mark == Mark.NOUGHT ? Mark.CROSS : Mark.NOUGHT;
     }
-
-    public boolean isGameOver() {
-        return gameOver;
-    }
 }

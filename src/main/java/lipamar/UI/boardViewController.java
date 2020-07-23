@@ -11,7 +11,9 @@ import javafx.scene.layout.Pane;
 import javafx.scene.shape.Line;
 import lipamar.App;
 import lipamar.GameModel.Field;
+import lipamar.GameModel.Game;
 import lipamar.GameModel.Mark;
+import lipamar.GameModel.Referee;
 
 import java.net.URL;
 import java.util.List;
@@ -28,6 +30,8 @@ public class boardViewController implements Initializable {
     private Pane endBackground;
     @FXML
     private Pane background;
+    @FXML
+    private Button newGameButton;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
@@ -62,11 +66,44 @@ public class boardViewController implements Initializable {
             }
         }
     }
+    @FXML
+    private void newGame(){
+        System.out.println("asdasd");
+        App.GAME.newGame();
+        gameOverLabel.setVisible(false);
+        endBackground.setVisible(false);
+        updateBoardView();
+
+    }
+    private void cleanup(){
+
+    }
 
     private void drawWinningLine() {
-        Line winningLine = new Line(100,100,400,400);
+        List<Field> fields = App.GAME.getReferee().getWinningLine();
+        if(fields.isEmpty()){
+           return;
+        }
+        int startX = fields.get(0).getX();
+        int startY = fields.get(0).getY();
+        int endX = fields.get(fields.size()-1).getX();
+        int endY = fields.get(fields.size()-1).getY();
+        Line winningLine = generateLine(startX,startY,endX,endY);
         winningLine.getStyleClass().add("line");
         background.getChildren().add(1,winningLine);
+    }
+
+    private Line generateLine(int startX, int startY, int endX, int endY) {
+        int xDiff = Math.abs(startX - endX);
+        int yDiff = Math.abs(startY - endY);
+        System.out.printf("sX %d sY%d eX%d eY%d %n",startX, startY, endX, endY);
+        System.out.printf("[%f,%f][%f,%f]%n",indexToCoordinates(startY)-(yDiff*25),indexToCoordinates(startX)-(xDiff*25),indexToCoordinates(endY)+(yDiff*25),indexToCoordinates(endX)+(xDiff*25));
+        return new Line(indexToCoordinates(startY)-(yDiff*25),indexToCoordinates(startX)-(xDiff*25),
+                indexToCoordinates(endY)+(yDiff*25),indexToCoordinates(endX)+(xDiff*25));
+    }
+
+    private double indexToCoordinates(int index){
+        return index*200+100;
     }
 
     private void updateBoardView() {
@@ -77,6 +114,9 @@ public class boardViewController implements Initializable {
                 Mark mark = board.get(i).get(j).getMark();
                 if ( mark != null)
                     this.fields[i][j].setText(mark.getSign());
+                else{
+                    this.fields[i][j].setText("");
+                }
             }
         }
     }
