@@ -2,20 +2,17 @@ package lipamar.GameModel;
 
 import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 public class Board {
     public static String BOARD = "board";
     private final ArrayList<ArrayList<Field>> board;
     private final PropertyChangeSupport propertyChangeSupport;
 
-    public Board(PropertyChangeListener referee) {
+    public Board() {
         board = new ArrayList<>();
         initializeBoardFields();
         propertyChangeSupport = new PropertyChangeSupport(this);
-        propertyChangeSupport.addPropertyChangeListener(referee);
     }
 
     private void initializeBoardFields() {
@@ -28,15 +25,22 @@ public class Board {
         }
     }
 
-    public void setMarkOnField(Mark mark, int x, int y) {
-        if (board.get(x).get(y).getMark() == null) {
-            board.get(x).get(y).setMark(mark);
-            propertyChangeSupport.firePropertyChange(BOARD, null, this.toList());
-        }
+    public boolean isFull(){
+        return board.stream().flatMap(Collection::stream).noneMatch(field->field.getMark()==null);
     }
 
     public List<List<Field>> toList() {
         return Collections.unmodifiableList(board);
+    }
+
+    public void setPropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+    public void setMarkOnField(Mark mark, int x, int y) {
+        if (board.get(x).get(y).getMark() == null) {
+            board.get(x).get(y).setMark(mark);
+            propertyChangeSupport.firePropertyChange(BOARD, null, this);
+        }
     }
 
 }

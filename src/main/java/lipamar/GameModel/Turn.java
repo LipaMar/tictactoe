@@ -4,7 +4,6 @@ import java.util.Random;
 
 public class Turn {
     private Mark mark;
-    private boolean gameOver = false;
 
     public Turn() {
         Random random = new Random();

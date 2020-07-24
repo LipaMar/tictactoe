@@ -1,21 +1,19 @@
 package lipamar.UI;
 
-import com.sun.scenario.effect.impl.sw.java.JSWBlend_SRC_OUTPeer;
+import javafx.animation.*;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.Pane;
+import javafx.scene.Node;
+import javafx.scene.control.*;
+import javafx.scene.layout.*;
 import javafx.scene.shape.Line;
+import javafx.util.Duration;
 import lipamar.App;
 import lipamar.GameModel.Field;
-import lipamar.GameModel.Game;
 import lipamar.GameModel.Mark;
-import lipamar.GameModel.Referee;
-import org.w3c.dom.ls.LSOutput;
 
 import java.net.URL;
 import java.util.List;
@@ -29,15 +27,18 @@ public class boardViewController implements Initializable {
     @FXML
     private Label gameOverLabel;
     @FXML
-    private Pane endBackground;
+    private VBox endBackground;
     @FXML
     private Pane background;
     @FXML
-    private Button newGameButton;
+    private Label scores;
+    @FXML
+    private Label startInfo;
     private Line winningLine;
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
+        showStartInfo();
         fields = new Button[SIDE][SIDE];
 
         for (int i = 0; i < SIDE; i++) {
@@ -48,15 +49,16 @@ public class boardViewController implements Initializable {
                 button.setOnAction(actionEvent -> {
                     App.GAME.makeAMove(finalI, finalJ);
                     updateBoardView();
-                    if(App.GAME.getReferee().isGameOver())
-                    {
+                    if (App.GAME.getReferee().isGameOver()) {
+                        drawWinningLine();
                         gameOverLabel.setVisible(true);
                         endBackground.setVisible(true);
-                        drawWinningLine();
+                        scores.setText(scoresToString());
                     }
 
 
                 });
+                button.getStyleClass().add("boardButton");
                 GridPane.setHalignment(button, HPos.CENTER);
                 GridPane.setValignment(button, VPos.CENTER);
                 fields[i][j] = button;
@@ -69,56 +71,93 @@ public class boardViewController implements Initializable {
             }
         }
     }
+
+    private void showStartInfo() {
+        startInfo.setText("First move\n" + App.GAME.getTurn().getMark().getSign().toUpperCase());
+        Timeline vanish = nodeVanish(startInfo);
+        vanish.play();
+    }
+
+    private Timeline nodeVanish(Node node) {
+        return new Timeline(
+                new KeyFrame(
+                        Duration.seconds(0),
+                        new KeyValue(
+                                node.visibleProperty(), true
+                        )
+                ),
+                new KeyFrame(
+                        Duration.seconds(1.5),
+                        new KeyValue(
+                                node.visibleProperty(), false
+                        )
+                ));
+    }
+
+    private String scoresToString() {
+        var scores = App.GAME.getReferee().getScores();
+        int x = scores.get(Mark.CROSS);
+        int o = scores.get(Mark.NOUGHT);
+        return String.format("%s  %d:%d  %s", Mark.CROSS.getSign(), x, o, Mark.NOUGHT.getSign()).toUpperCase();
+    }
+
     @FXML
-    private void newGame(){
-        cleanup();
+    private void newGame() {
         App.GAME.newGame();
+        resetUI();
+
+    }
+
+    public void nextGame(ActionEvent actionEvent) {
+        App.GAME.nextGame();
+        resetUI();
+    }
+
+    private void resetUI() {
+        background.getChildren().remove(winningLine);
         gameOverLabel.setVisible(false);
         endBackground.setVisible(false);
         updateBoardView();
-
-    }
-    private void cleanup(){
-        background.getChildren().remove(winningLine);
+        showStartInfo();
     }
 
     private void drawWinningLine() {
         List<Field> fields = App.GAME.getReferee().getWinningLine();
-        if(fields.isEmpty()){
-           return;
+        if (fields.isEmpty()) {
+            return;
         }
         int startX = fields.get(0).getX();
         int startY = fields.get(0).getY();
-        int endX = fields.get(fields.size()-1).getX();
-        int endY = fields.get(fields.size()-1).getY();
-        winningLine = generateLine(startX,startY,endX,endY);
+        int endX = fields.get(fields.size() - 1).getX();
+        int endY = fields.get(fields.size() - 1).getY();
+        winningLine = generateLine(startX, startY, endX, endY);
         winningLine.getStyleClass().add("line");
-        background.getChildren().add(1,winningLine);
+        background.getChildren().add(1, winningLine);
     }
 
     private Line generateLine(int startX, int startY, int endX, int endY) {
         int xDiff = Math.abs(startX - endX);
         int yDiff = Math.abs(startY - endY);
         if (startY > endY) {
-            yDiff*=-1;
+            yDiff *= -1;
         }
-        return new Line(indexToCoordinates(startY)-(yDiff*25),indexToCoordinates(startX)-(xDiff*25),
-                indexToCoordinates(endY)+(yDiff*25),indexToCoordinates(endX)+(xDiff*25));
+        return new Line(indexToCoordinates(startY) - (yDiff * 25), indexToCoordinates(startX) - (xDiff * 25),
+                indexToCoordinates(endY) + (yDiff * 25), indexToCoordinates(endX) + (xDiff * 25));
     }
 
-    private double indexToCoordinates(int index){
-        return index*200+100;
+    private double indexToCoordinates(int index) {
+        return index * 200 + 100;
     }
 
     private void updateBoardView() {
         List<List<Field>> board = App.GAME.getBoard().toList();
 
-        for (int i=0;i<board.size();i++) {
-            for (int j=0;j<board.get(i).size();j++) {
+        for (int i = 0; i < board.size(); i++) {
+            for (int j = 0; j < board.get(i).size(); j++) {
                 Mark mark = board.get(i).get(j).getMark();
-                if ( mark != null)
+                if (mark != null)
                     this.fields[i][j].setText(mark.getSign());
-                else{
+                else {
                     this.fields[i][j].setText("");
                 }
             }

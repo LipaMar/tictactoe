@@ -1,10 +1,12 @@
-
+.text{
+    -fx-font-smoothing-type: gray;
+}
 .line{
     -fx-stroke: green;
     -fx-stroke-width: 15px;
     -fx-stroke-line-cap: round;
 }
-.button{
+.boardButton{
     -fx-text-fill:darkgreen;
     -fx-background-color: rgba(0,0,0,0);
     -fx-font-family: Gadugi;
@@ -23,20 +25,18 @@
     -fx-pref-width: 600;
 }
 #gameOverLabel{
-    -fx-background-color: gray;
-    -fx-text-fill: silver;
+    -fx-text-fill: #f1e9e9;
     -fx-alignment: center;
     -fx-content-display: center;
     -fx-font-size: 75px bold;
-    -fx-font-smoothing-type: lcd;
+    -fx-font-family: Jokerman;
 }
-#newGameButton{
-    -fx-background-color: blueviolet;
+.endButtons{
+    -fx-background-color: deepskyblue;
+    -fx-text-fill: #f1e9e9;
     -fx-font-family: Gadugi;
     -fx-font: 40px bold;
     -fx-content-display: center;
     -fx-cursor: default;
-    -fx-pref-height: 113;
-    -fx-pref-width: 309;
 }
 
