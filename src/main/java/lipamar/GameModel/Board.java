@@ -4,7 +4,7 @@ import java.beans.PropertyChangeListener;
 import java.beans.PropertyChangeSupport;
 import java.util.*;
 
-public class Board {
+class Board {
     public static String BOARD = "board";
     private final ArrayList<ArrayList<Field>> board;
     private final PropertyChangeSupport propertyChangeSupport;
@@ -33,8 +33,11 @@ public class Board {
         return Collections.unmodifiableList(board);
     }
 
-    public void setPropertyChangeListener(PropertyChangeListener listener) {
+    public void registerPropertyChangeListener(PropertyChangeListener listener) {
         propertyChangeSupport.addPropertyChangeListener(listener);
+    }
+    public void removePropertyChangeListener(PropertyChangeListener listener) {
+        propertyChangeSupport.removePropertyChangeListener(listener);
     }
     public void setMarkOnField(Mark mark, int x, int y) {
         if (board.get(x).get(y).getMark() == null) {

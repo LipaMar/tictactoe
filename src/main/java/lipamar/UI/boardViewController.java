@@ -49,7 +49,7 @@ public class boardViewController implements Initializable {
                 button.setOnAction(actionEvent -> {
                     App.GAME.makeAMove(finalI, finalJ);
                     updateBoardView();
-                    if (App.GAME.getReferee().isGameOver()) {
+                    if (App.GAME.isGameOver()) {
                         drawWinningLine();
                         gameOverLabel.setVisible(true);
                         endBackground.setVisible(true);
@@ -73,7 +73,7 @@ public class boardViewController implements Initializable {
     }
 
     private void showStartInfo() {
-        startInfo.setText("First move\n" + App.GAME.getTurn().getMark().getSign().toUpperCase());
+        startInfo.setText("First move\n" + App.GAME.whoseTurn().getSign().toUpperCase());
         Timeline vanish = nodeVanish(startInfo);
         vanish.play();
     }
@@ -95,7 +95,7 @@ public class boardViewController implements Initializable {
     }
 
     private String scoresToString() {
-        var scores = App.GAME.getReferee().getScores();
+        var scores = App.GAME.getScores();
         int x = scores.get(Mark.CROSS);
         int o = scores.get(Mark.NOUGHT);
         return String.format("%s  %d:%d  %s", Mark.CROSS.getSign(), x, o, Mark.NOUGHT.getSign()).toUpperCase();
@@ -122,7 +122,7 @@ public class boardViewController implements Initializable {
     }
 
     private void drawWinningLine() {
-        List<Field> fields = App.GAME.getReferee().getWinningLine();
+        List<Field> fields = App.GAME.getWinningLine();
         if (fields.isEmpty()) {
             return;
         }
@@ -150,7 +150,7 @@ public class boardViewController implements Initializable {
     }
 
     private void updateBoardView() {
-        List<List<Field>> board = App.GAME.getBoard().toList();
+        List<List<Field>> board = App.GAME.getBoard();
 
         for (int i = 0; i < board.size(); i++) {
             for (int j = 0; j < board.get(i).size(); j++) {

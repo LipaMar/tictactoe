@@ -1,49 +1,50 @@
 package lipamar.GameModel;
 
-import lipamar.App;
-
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;
 
-public class Referee implements PropertyChangeListener {
+class Referee implements PropertyChangeListener {
 
+    private final Map<Mark, Integer> scores;
+    private final Turn turn;
     private UngroupedBoard<Field> ungroupedBoard;
     private Board board;
-    private final Map<Mark, Integer> scores;
     private List<Field> winningLine;
 
     public Referee(Board board) {
         this.board = board;
+        this.board.registerPropertyChangeListener(this);
+        turn = new Turn();
         scores = new HashMap<>();
         winningLine = new ArrayList<>();
         scores.put(Mark.CROSS, 0);
         scores.put(Mark.NOUGHT, 0);
-        this.board.setPropertyChangeListener(this);
     }
 
     @Override
     public void propertyChange(PropertyChangeEvent evt) {
-        if (evt.getPropertyName().equals(Board.BOARD) && evt.getNewValue() != null) {
+        if (checkEventData(evt)) {
             board = (Board) evt.getNewValue();
             ungroupedBoard = new UngroupedBoard<>(board.toList());
             winningLine = findWinner();
 
             if (isGameOver()) {
                 addScore(result());
-            } else {
-                App.GAME.getTurn().next();
             }
+            turn.next();
         }
 
     }
 
-    public boolean isGameOver() {
-        return !winningLine.isEmpty() || board.isFull();
+    public void nextRound(Board board) {
+        this.board = board;
+        this.board.registerPropertyChangeListener(this);
+        winningLine = new ArrayList<>();
     }
 
-    public Map<Mark, Integer> getScores() {
-        return Collections.unmodifiableMap(scores);
+    private boolean checkEventData(PropertyChangeEvent evt) {
+        return evt.getPropertyName().equals(Board.BOARD) && evt.getNewValue() != null;
     }
 
     private Mark result() {
@@ -67,10 +68,6 @@ public class Referee implements PropertyChangeListener {
         scores.put(result, old + 1);
     }
 
-    public List<Field> getWinningLine() {
-        return winningLine;
-    }
-
     private boolean isCombinationWinning(List<Field> list) {
         return !containsFieldWithNoMark(list) && areNonNullObjectsEqual(list);
     }
@@ -87,11 +84,21 @@ public class Referee implements PropertyChangeListener {
 
     private boolean areNonNullObjectsEqual(List<Field> list) {
         return list.stream().map(Field::getMark).filter(Objects::nonNull).distinct().count() == 1;
+}
+
+    public Mark whoseTurn() {
+        return turn.getMark();
     }
 
-    public void nextRound(Board board) {
-        this.board = board;
-        this.board.setPropertyChangeListener(this);
-        winningLine = new ArrayList<>();
+    public boolean isGameOver() {
+        return !winningLine.isEmpty() || board.isFull();
+    }
+
+    public Map<Mark, Integer> getScores() {
+        return Collections.unmodifiableMap(scores);
+    }
+
+    public List<Field> getWinningLine() {
+        return winningLine;
     }
 }
